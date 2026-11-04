@@ -45,6 +45,18 @@ ZEXXY_BANNER = r"""
    ╚══════════════════════════════════════════════════════════╝
 """
 
+# ═══════════════════════════════════════════════════════════════
+#   HOME ROUTE (Direct Domain Response)
+# ═══════════════════════════════════════════════════════════════
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({
+        "status": "Running",
+        "message": "Zexxy Like Sender API is Active ⚡",
+        "usage": "/like?uid=YOUR_UID&region=YOUR_REGION",
+        "credit": "Zexxy"
+    }), 200
+
 
 # ═══════════════════════════════════════════════════════════════
 #   TOKEN LOADER
@@ -312,4 +324,3 @@ def zexxyh4x_handle_requests():
 if __name__ == '__main__':
     print(ZEXXY_BANNER)
     app.run(debug=True, use_reloader=False)
-            
