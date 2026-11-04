@@ -22,6 +22,7 @@
 
 from flask import Flask, request, jsonify
 import asyncio
+import os
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from google.protobuf.json_format import MessageToJson
@@ -59,19 +60,20 @@ def home():
 
 
 # ═══════════════════════════════════════════════════════════════
-#   TOKEN LOADER
+#   TOKEN LOADER (Path Safe for Vercel)
 # ═══════════════════════════════════════════════════════════════
 def zexxyh4x_load_tokens(region):
     try:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
         if region == "IND":
-            with open("token_ind.json", "r") as f:
-                tokens = json.load(f)
+            file_path = os.path.join(base_dir, "token_ind.json")
         elif region in {"BR", "US", "SAC", "NA"}:
-            with open("token_br.json", "r") as f:
-                tokens = json.load(f)
+            file_path = os.path.join(base_dir, "token_br.json")
         else:
-            with open("token_bd.json", "r") as f:
-                tokens = json.load(f)
+            file_path = os.path.join(base_dir, "token_bd.json")
+            
+        with open(file_path, "r") as f:
+            tokens = json.load(f)
         return tokens
     except Exception as e:
         app.logger.error(f"[Zexxy] Error loading tokens for region {region}: {e}")
